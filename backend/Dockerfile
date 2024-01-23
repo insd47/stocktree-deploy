@@ -11,9 +11,12 @@ WORKDIR /app
 RUN git clone -b production https://github.com/ApptiveDev/apptive-19th-hjfund-backend.git /app
 
 # 빌드
+RUN chmod +x ./gradlew
 RUN ./gradlew build --no-daemon
 
 # 실행
 FROM openjdk:11-jre-slim
 COPY --from=build /app/build/libs/hjfund-0.0.1-SNAPSHOT.jar /app/app.jar
+RUN chmod +x /app/app.jar
+
 CMD ["java", "-jar", "/app/app.jar"]
