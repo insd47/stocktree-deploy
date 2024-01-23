@@ -53,6 +53,7 @@ services:
       - "80:80"
       - "443:443"
       - "443:443/udp"
+      - "8080:8080"
     cap_add:
       - NET_ADMIN
     volumes:
