@@ -71,19 +71,19 @@ services:
       ACME_CA: https://acme-v02.api.letsencrypt.org/directory
       ACME_EMAIL: me@insd.dev
       CLOUDFLARE_AUTH_TOKEN: ${CLOUDFLARE_AUTH_TOKEN}
-  deploy:
-    container_name: stocktree-deploy
-    build:
-      context: ./deploy
-      dockerfile: Dockerfile
-    restart: unless-stopped
-    network_mode: bridge
-    environment:
-      BACKEND_ACTION_RUNNER_TOKEN: ${BACKEND_ACTION_RUNNER_TOKEN}
-      FRONTEND_ACTION_RUNNER_TOKEN: ${FRONTEND_ACTION_RUNNER_TOKEN}
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./docker-compose.yaml:/app/docker-compose.yaml
+  # deploy:
+  #   container_name: stocktree-deploy
+  #   build:
+  #     context: ./deploy
+  #     dockerfile: Dockerfile
+  #   restart: unless-stopped
+  #   network_mode: bridge
+  #   environment:
+  #     BACKEND_ACTION_RUNNER_TOKEN: ${BACKEND_ACTION_RUNNER_TOKEN}
+  #     FRONTEND_ACTION_RUNNER_TOKEN: ${FRONTEND_ACTION_RUNNER_TOKEN}
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - ./docker-compose.yaml:/app/docker-compose.yaml
 
 networks:
   stocktree_bridge:
