@@ -1,5 +1,7 @@
 FROM ubuntu:20.04
 
+USER ubuntu
+
 # 필요한 도구 설치
 RUN apt-get update && apt-get install -y curl tar git
 
