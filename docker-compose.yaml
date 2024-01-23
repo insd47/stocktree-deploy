@@ -83,7 +83,7 @@ services:
       FRONTEND_ACTION_RUNNER_TOKEN: ${FRONTEND_ACTION_RUNNER_TOKEN}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./docker-compose.yml:/app/docker-compose.yml
+      - ./docker-compose.yaml:/app/docker-compose.yaml
 
 networks:
   stocktree_bridge:
