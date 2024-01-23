@@ -10,10 +10,6 @@ WORKDIR /app
 # 프로젝트 클론하기
 RUN git clone -b main https://github.com/ApptiveDev/apptive-19th-hjfund-backend.git /app
 
-# Gradle Wrapper와 의존성 파일 복사
-COPY build.gradle gradlew settings.gradle ./
-COPY gradle ./gradle
-
 # 의존성 다운로드
 RUN ./gradlew build --no-daemon
 
