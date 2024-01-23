@@ -1,0 +1,89 @@
+version: "3.8"
+services:
+  frontend:
+    container_name: stocktree-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      NEXT_PUBLIC_API_URL: https://stocktree.insd.dev/api
+      NEXT_PUBLIC_CONTACT_EMAIL_ADDRESS: stocktree@insd.dev
+    networks:
+      - stocktree_bridge:
+          ipv4_address: 172.30.1.2
+  backend:
+    container_name: stocktree-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      CLOUD_AWS_CREDENTIALS_ACCESSKEY: ${CLOUD_AWS_CREDENTIALS_ACCESSKEY}
+      CLOUD_AWS_CREDENTIALS_SECRETKEY: ${CLOUD_AWS_CREDENTIALS_SECRETKEY}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+    networks:
+      - stocktree_bridge:
+          ipv4_address: 172.30.1.3
+  backend_dev:
+    container_name: stocktree-backend-dev
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      CLOUD_AWS_CREDENTIALS_ACCESSKEY: ${CLOUD_AWS_CREDENTIALS_ACCESSKEY}
+      CLOUD_AWS_CREDENTIALS_SECRETKEY: ${CLOUD_AWS_CREDENTIALS_SECRETKEY}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+    networks:
+      - stocktree_bridge:
+          ipv4_address: 172.30.1.4
+  caddy:
+    container_name: stocktree-caddy
+    image: caddy:2.7.6
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/site:/srv
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+    environment:
+      ACME_AGREE: true
+      ACME_CA: https://acme-v02.api.letsencrypt.org/directory
+      ACME_EMAIL: me@insd.dev
+      CLOUDFLARE_AUTH_TOKEN: ${CLOUDFLARE_AUTH_TOKEN}
+  deploy:
+    container_name: stocktree-deploy
+    build:
+      context: ./deploy
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    network_mode: bridge
+    environment:
+      BACKEND_ACTION_RUNNER_TOKEN: ${BACKEND_ACTION_RUNNER_TOKEN}
+      FRONTEND_ACTION_RUNNER_TOKEN: ${FRONTEND_ACTION_RUNNER_TOKEN}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./docker-compose.yml:/app/docker-compose.yml
+
+networks:
+  stocktree_bridge:
+    name: stocktree-bridge
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.1.0/24
+          gateway: 172.30.1.1
