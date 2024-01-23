@@ -1,7 +1,5 @@
 FROM ubuntu:20.04
 
-USER ubuntu
-
 # 필요한 도구 설치
 RUN apt-get update && apt-get install -y curl tar git
 
@@ -24,6 +22,9 @@ COPY run.sh run.sh
 
 # 실행 권한 부여
 RUN chmod +x run.sh
+
+RUN useradd -m ubuntu
+USER ubuntu
 
 # 실행
 CMD ["./run.sh"]
