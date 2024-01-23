@@ -10,11 +10,7 @@ WORKDIR /app
 # 프로젝트 클론하기
 RUN git clone -b main https://github.com/ApptiveDev/apptive-19th-hjfund-backend.git /app
 
-# 의존성 다운로드
-RUN ./gradlew build --no-daemon
-
-# 소스 코드 복사 및 애플리케이션 빌드
-COPY src ./src
+# 빌드
 RUN ./gradlew build --no-daemon
 
 # 실행
