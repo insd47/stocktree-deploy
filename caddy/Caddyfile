@@ -14,7 +14,7 @@ http://stocktree.insd.dev {
     redir https://stocktree.insd.dev{uri}
 }
 
-stocktree.insd.dev:8080 {
+stocktree.insd.dev:8443 {
     tls {
         dns cloudflare {$CLOUDFLARE_AUTH_TOKEN}
     }
