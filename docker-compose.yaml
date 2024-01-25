@@ -12,6 +12,8 @@ services:
     image: insd47/stocktree-backend:latest
     restart: unless-stopped
     environment:
+      HJFUND_DEPLOY_TYPE: main
+      HJFUND_DEPLOY_MAIN_ORIGIN: https://stocktree.insd.dev
       CLOUD_AWS_CREDENTIALS_ACCESSKEY: ${CLOUD_AWS_CREDENTIALS_ACCESSKEY}
       CLOUD_AWS_CREDENTIALS_SECRETKEY: ${CLOUD_AWS_CREDENTIALS_SECRETKEY}
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
@@ -25,6 +27,8 @@ services:
     image: insd47/stocktree-backend:develop
     restart: unless-stopped
     environment:
+      HJFUND_DEPLOY_TYPE: develop
+      HJFUND_DEPLOY_MAIN_ORIGIN: http://localhost:3000
       CLOUD_AWS_CREDENTIALS_ACCESSKEY: ${CLOUD_AWS_CREDENTIALS_ACCESSKEY}
       CLOUD_AWS_CREDENTIALS_SECRETKEY: ${CLOUD_AWS_CREDENTIALS_SECRETKEY}
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
