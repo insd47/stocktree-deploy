@@ -12,7 +12,6 @@ stocktree.insd.dev {
         header_up X-Real-IP {remote}
         header_up X-Forwarded-For {remote}
         header_up X-Forwarded-Proto {scheme}
-        header_ul X-Forwarded-Port {port}
     }
 
     reverse_proxy http://172.30.1.2:3000 {
@@ -20,7 +19,6 @@ stocktree.insd.dev {
         header_up X-Real-IP {remote}
         header_up X-Forwarded-For {remote}
         header_up X-Forwarded-Proto {scheme}
-        header_ul X-Forwarded-Port {port}
     }
 }
 
@@ -37,6 +35,5 @@ stocktree.insd.dev:8443 {
         header_up X-Real-IP {remote}
         header_up X-Forwarded-For {remote}
         header_up X-Forwarded-Proto {scheme}
-        header_ul X-Forwarded-Port {port}
     } # 백엔드 테스트 서버
 }
